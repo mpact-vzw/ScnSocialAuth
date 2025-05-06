@@ -4,8 +4,8 @@ namespace ScnSocialAuth\Mapper;
 
 use Hybrid_User_Profile;
 use ScnSocialAuth\Entity\UserProvider as UserProviderEntity;
-use Zend\Stdlib\Hydrator\HydratorInterface;
-use ZfcBase\Mapper\AbstractDbMapper;
+use Laminas\Stdlib\Hydrator\HydratorInterface;
+use LmcUser\Mapper\AbstractDbMapper;
 use ZfcUser\Entity\UserInterface;
 
 class UserProvider extends AbstractDbMapper implements UserProviderInterface

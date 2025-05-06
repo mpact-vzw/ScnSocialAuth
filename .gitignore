@@ -6,7 +6,5 @@ extras/documentation
 vendor/
 composer.lock
 php-cs-fixer.phar
-.php_cs.cache
 .idea/*
-
 

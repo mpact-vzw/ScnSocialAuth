@@ -9,10 +9,10 @@
 namespace ScnSocialAuth\Service;
 
 use Hybrid_Auth;
-use Zend\Mvc\Router\Http\TreeRouteStack;
-use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\Mvc\Router\Http\TreeRouteStack;
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
+use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * @category   ScnSocialAuth
@@ -90,7 +90,7 @@ class HybridAuthFactory implements FactoryInterface
                     'LinkedIn' => array(
                         'enabled' => $options->getLinkedInEnabled(),
                         'keys' => array(
-                            'id' => $options->getLinkedInClientId(),
+                            'key' => $options->getLinkedInClientId(),
                             'secret' => $options->getLinkedInSecret(),
                         ),
                     ),

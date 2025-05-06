@@ -8,11 +8,11 @@ namespace ScnSocialAuthTest\Service;
 
 use ScnSocialAuth\Service\HybridAuthFactory;
 use PHPUnit_Framework_TestCase as TestCase;
-use Zend\Http\PhpEnvironment\Request;
-use Zend\Mvc\Router\Http\TreeRouteStack;
-use Zend\Mvc\Router\Console\SimpleRouteStack;
-use Zend\ServiceManager\ServiceManager;
-use Zend\Uri\Http as HttpUri;
+use Laminas\Http\PhpEnvironment\Request;
+use Laminas\Mvc\Router\Http\TreeRouteStack;
+use Laminas\Mvc\Router\Console\SimpleRouteStack;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\Uri\Http as HttpUri;
 
 /**
  * Unit tests for HybridAuthFactory
@@ -58,7 +58,7 @@ class HybridAuthFactoryTest extends TestCase
 
     public function testGetBaseUrlThrowsException()
     {
-        $this->setExpectedException('Zend\Mvc\Router\Exception\RuntimeException', 'Route with name "scn-social-auth-hauth" not found');
+        $this->setExpectedException('Laminas\Mvc\Router\Exception\RuntimeException', 'Route with name "scn-social-auth-hauth" not found');
         $this->factory->getBaseUrl($this->serviceManager);
     }
 
@@ -113,7 +113,7 @@ class HybridAuthFactoryTest extends TestCase
     }
 
     /**
-     * @expectedException \Zend\ServiceManager\Exception\ServiceNotCreatedException
+     * @expectedException \Laminas\ServiceManager\Exception\ServiceNotCreatedException
      */
     public function testSimpleRouteStack()
     {

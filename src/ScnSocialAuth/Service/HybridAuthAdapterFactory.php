@@ -9,8 +9,8 @@
 namespace ScnSocialAuth\Service;
 
 use ScnSocialAuth\Authentication\Adapter\HybridAuth as HybridAuthAdapter;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * @category   ScnSocialAuth
@@ -23,17 +23,15 @@ class HybridAuthAdapterFactory implements FactoryInterface
         $moduleOptions = $services->get('ScnSocialAuth-ModuleOptions');
         $zfcUserOptions = $services->get('zfcuser_module_options');
 
+        $hybridAuth = $services->get('HybridAuth');
         $mapper = $services->get('ScnSocialAuth-UserProviderMapper');
         $zfcUserMapper = $services->get('zfcuser_user_mapper');
 
-        $hybridAuth = $services->get('HybridAuth');
-
-        $adapter = new HybridAuthAdapter();
+        $adapter = new HybridAuthAdapter($hybridAuth);
         $adapter->setOptions($moduleOptions);
         $adapter->setZfcUserOptions($zfcUserOptions);
         $adapter->setMapper($mapper);
         $adapter->setZfcUserMapper($zfcUserMapper);
-        $adapter->setHybridAuth($hybridAuth);
 
         return $adapter;
     }

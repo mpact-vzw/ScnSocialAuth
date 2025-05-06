@@ -15,7 +15,7 @@ Requirements
 * [Zend Framework 2](https://github.com/zendframework/zf2) (2.*)
 * [ZfcBase](https://github.com/ZF-Commons/ZfcBase) (0.1.*)
 * [ZfcUser](https://github.com/ZF-Commons/ZfcUser) (1.4.*)
-* [HybridAuth](https://github.com/hybridauth/hybridauth) (2.13.*)
+* [HybridAuth](https://github.com/hybridauth/hybridauth) (2.6.*)
 * Extension php_curl enabled in php.ini
 
 Features
@@ -44,7 +44,7 @@ Installation
 It is recommended to add this module to your Zend Framework 2 application using Composer. After cloning [ZendSkeletonApplication](https://github.com/zendframework/ZendSkeletonApplication), add "socalnick/scn-social-auth" to list of requirements, then run php composer.phar install/update. Your composer.json should look something like this:
 ```
 {
-    "name": "zendframework/skeleton-application",
+    "name": "laminas/skeleton-application",
     "description": "Skeleton Application for ZF2",
     "license": "BSD-3-Clause",
     "keywords": [
@@ -84,7 +84,7 @@ return array(
 
 Import the schemas for ZfcUser (`./vendor/zf-commons/zfc-user/data/schema.sql`) and ScnSocialAuth (`./vendor/socalnick/scn-social-auth/data/schema.sql`).
 
-If you do not already have a valid Zend\Db\Adapter\Adapter in your service
+If you do not already have a valid Laminas\Db\Adapter\Adapter in your service
 manager configuration, put the following in `./config/autoload/database.local.php`:
 ```
 <?php
@@ -99,8 +99,8 @@ $dbParams = array(
 return array(
     'service_manager' => array(
         'factories' => array(
-            'Zend\Db\Adapter\Adapter' => function ($sm) use ($dbParams) {
-                return new Zend\Db\Adapter\Adapter(array(
+            'Laminas\Db\Adapter\Adapter' => function ($sm) use ($dbParams) {
+                return new Laminas\Db\Adapter\Adapter(array(
                     'driver'    => 'pdo',
                     'dsn'       => 'mysql:dbname='.$dbParams['database'].';host='.$dbParams['hostname'],
                     'database'  => $dbParams['database'],
@@ -114,7 +114,7 @@ return array(
 );
 ```
 
-If you do not already have a valid Zend\Session\SessionManager in your service
+If you do not already have a valid Laminas\Session\SessionManager in your service
 manager configuration, put the following in `./config/autoload/session.local.php`:
 ```
 <?php
@@ -122,7 +122,7 @@ manager configuration, put the following in `./config/autoload/session.local.php
 return array(
     'service_manager' => array(
         'invokables' => array(
-            'Zend\Session\SessionManager' => 'Zend\Session\SessionManager',
+            'Laminas\Session\SessionManager' => 'Laminas\Session\SessionManager',
         ),
     ),
 );

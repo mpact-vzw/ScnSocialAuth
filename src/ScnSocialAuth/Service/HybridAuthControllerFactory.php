@@ -9,8 +9,8 @@
 namespace ScnSocialAuth\Service;
 
 use ScnSocialAuth\Controller\HybridAuthController;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * @category   ScnSocialAuth

@@ -2,7 +2,7 @@
 
 namespace ScnSocialAuthTest;
 
-use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
+use Laminas\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 
 class RouteAssemblyTest extends AbstractHttpControllerTestCase
 {

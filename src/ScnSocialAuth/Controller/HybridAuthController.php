@@ -1,7 +1,7 @@
 <?php
 namespace ScnSocialAuth\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
+use Laminas\Mvc\Controller\AbstractActionController;
 
 class HybridAuthController extends AbstractActionController
 {

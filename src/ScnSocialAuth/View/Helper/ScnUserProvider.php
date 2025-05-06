@@ -3,7 +3,7 @@
 namespace ScnSocialAuth\View\Helper;
 
 use ScnSocialAuth\Mapper\UserProviderInterface as UserProviderMapper;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Helper\AbstractHelper;
 use ZfcUser\Entity\UserInterface;
 
 class ScnUserProvider extends AbstractHelper

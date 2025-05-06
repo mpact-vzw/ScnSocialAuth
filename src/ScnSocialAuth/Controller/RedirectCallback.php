@@ -8,10 +8,10 @@
 
 namespace ScnSocialAuth\Controller;
 
-use Zend\Mvc\Application;
-use Zend\Mvc\Router\RouteInterface;
-use Zend\Mvc\Router\Exception;
-use Zend\Http\PhpEnvironment\Response;
+use Laminas\Mvc\Application;
+use Laminas\Mvc\Router\RouteInterface;
+use Laminas\Mvc\Router\Exception;
+use Laminas\Http\PhpEnvironment\Response;
 use ZfcUser\Options\ModuleOptions;
 
 /**

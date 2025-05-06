@@ -9,14 +9,20 @@ namespace ScnSocialAuthTest\Controller;
 use ScnSocialAuth\Controller\UserController;
 use PHPUnit_Framework_TestCase as TestCase;
 use ScnSocialAuth\Options\ModuleOptions;
-use Zend\Mvc\Controller\PluginManager;
-use Zend\Mvc\MvcEvent;
-use Zend\Http\PhpEnvironment\Request;
+use Laminas\Mvc\Controller\PluginManager;
+use Laminas\Mvc\MvcEvent;
+use Laminas\Http\PhpEnvironment\Request;
+use Laminas\ServiceManager\ServiceManager;
 
 class UserControllerTest extends TestCase
 {
     /**
-     * @var \Zend\Mvc\Controller\PluginManager
+     * @var \Laminas\ServiceManager\ServiceManager
+     */
+    protected $sm;
+
+    /**
+     * @var \Laminas\Mvc\Controller\PluginManager
      */
     protected $pm;
 
@@ -26,25 +32,27 @@ class UserControllerTest extends TestCase
     protected $controller;
 
     /**
-     * @var \Zend\Mvc\MvcEvent;
+     * @var \Laminas\Mvc\MvcEvent;
      */
     protected $event;
 
     /**
-     * @var \Zend\Http\PhpEnvironment\Request
+     * @var \Laminas\Http\PhpEnvironment\Request
      */
     protected $request;
 
     public function setUp()
     {
+        $this->sm = new ServiceManager();
         $this->pm = new PluginManager();
         $this->event = new MvcEvent();
         $this->request = new Request();
         $this->controller = new UserController(\Mockery::mock('ScnSocialAuth\Controller\RedirectCallback'));
         $this->controller->setEvent($this->event);
+        $this->controller->setServiceLocator($this->sm);
         $this->controller->setPluginManager($this->pm);
 
-        $forwardPlugin = \Mockery::mock('Zend\Mvc\Controller\Plugin\Forward[dispatch]');
+        $forwardPlugin = \Mockery::mock('Laminas\Mvc\Controller\Plugin\Forward[dispatch]');
         $this->pm->setService('forward', $forwardPlugin);
     }
 
@@ -55,7 +63,7 @@ class UserControllerTest extends TestCase
 
     protected function dispatch($action, $params = array())
     {
-        $routeMatch = new \Zend\Mvc\Router\RouteMatch(array_merge(array('action' => $action), $params));
+        $routeMatch = new \Laminas\Mvc\Router\RouteMatch(array_merge(array('action' => $action), $params));
         $this->event->setRouteMatch($routeMatch);
         $this->controller->setEvent($this->event);
         $this->controller->dispatch($this->request);
@@ -65,23 +73,23 @@ class UserControllerTest extends TestCase
 
     public function testIsEventManagerAware()
     {
-        $this->assertInstanceOf('Zend\EventManager\EventManagerAwareInterface', $this->controller);
+        $this->assertInstanceOf('Laminas\EventManager\EventManagerAwareInterface', $this->controller);
     }
 
     public function testIsDispatchable()
     {
-        $this->assertInstanceOf('Zend\Stdlib\DispatchableInterface', $this->controller);
+        $this->assertInstanceOf('Laminas\Stdlib\DispatchableInterface', $this->controller);
     }
 
     public function testIsEventInjectable()
     {
-        $this->assertInstanceOf('Zend\Mvc\InjectApplicationEventInterface', $this->controller);
+        $this->assertInstanceOf('Laminas\Mvc\InjectApplicationEventInterface', $this->controller);
     }
 
     public function testRaisesExceptionOnDispatchIfEventDoesNotContainRouteMatch()
     {
         $request = new Request();
-        $this->setExpectedException('Zend\Mvc\Exception\DomainException', 'Missing route matches');
+        $this->setExpectedException('Laminas\Mvc\Exception\DomainException', 'Missing route matches');
         $this->controller->dispatch($request);
     }
 

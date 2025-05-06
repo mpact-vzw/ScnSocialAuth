@@ -7,8 +7,8 @@ return array(
         ),
     ),
     'controller_plugins' => array(
-        'factories' => array(
-            'scnSocialAuthProvider' => 'ScnSocialAuth\Service\ProviderControllerPluginFactory',
+        'invokables' => array(
+            'scnsocialauthprovider' => 'ScnSocialAuth\Controller\Plugin\ScnSocialAuthProvider',
         ),
     ),
     'router' => array(
@@ -135,8 +135,8 @@ return array(
     ),
     'service_manager' => array(
         'aliases' => array(
-            'ScnSocialAuth_ZendDbAdapter' => 'Zend\Db\Adapter\Adapter',
-            'ScnSocialAuth_ZendSessionManager' => 'Zend\Session\SessionManager',
+            'ScnSocialAuth_ZendDbAdapter' => 'Laminas\Db\Adapter\Adapter',
+            'ScnSocialAuth_ZendSessionManager' => 'Laminas\Session\SessionManager',
         ),
         'factories' => array(
             'HybridAuth' => 'ScnSocialAuth\Service\HybridAuthFactory',

@@ -9,9 +9,9 @@
 namespace ScnSocialAuth\Service;
 
 use ScnSocialAuth\Mapper\UserProvider;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Stdlib\Hydrator;
+use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\Stdlib\Hydrator;
 
 /**
  * @category   ScnSocialAuth

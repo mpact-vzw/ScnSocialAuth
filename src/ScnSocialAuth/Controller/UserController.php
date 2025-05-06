@@ -5,9 +5,9 @@ use Hybrid_Auth;
 use ScnSocialAuth\Mapper\Exception as MapperException;
 use ScnSocialAuth\Mapper\UserProviderInterface;
 use ScnSocialAuth\Options\ModuleOptions;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ModelInterface;
-use Zend\View\Model\ViewModel;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ModelInterface;
+use Laminas\View\Model\ViewModel;
 
 class UserController extends AbstractActionController
 {
@@ -22,11 +22,6 @@ class UserController extends AbstractActionController
     protected $hybridAuth;
 
     /**
-     * @var \ZfcUser\Authentication\Adapter\AdapterChain
-     */
-    protected $scnAuthAdapterChain;
-
-    /**
      * @var ModuleOptions
      */
     protected $options;
@@ -35,6 +30,11 @@ class UserController extends AbstractActionController
      * @var \ZfcUser\Options\ModuleOptions
      */
     protected $zfcmoduleoptions;
+
+    /**
+     * @var \ZfcUser\Options\ModuleOptions
+     */
+    protected $ScnSocialAuthAuthenticationAdapterChain;
 
     /*
      * @todo Make this dynamic / translation-friendly
@@ -50,12 +50,16 @@ class UserController extends AbstractActionController
     /**
      * @param callable $redirectCallback
      */
-    public function __construct($redirectCallback)
+    public function __construct($redirectCallback, $ScnSocialAuthAuthenticationAdapterChain, $hybridAuth)
     {
+        $this->setScnSocialAuthAuthenticationAdapterChain($ScnSocialAuthAuthenticationAdapterChain);
+        $this->setHybridAuth($hybridAuth);
+
         if (!is_callable($redirectCallback)) {
             throw new \InvalidArgumentException('You must supply a callable redirectCallback');
         }
         $this->redirectCallback = $redirectCallback;
+
     }
 
     public function addProviderAction()
@@ -163,7 +167,7 @@ class UserController extends AbstractActionController
         }
 
         // For provider authentication, change the auth adapter in the ZfcUser Controller Plugin
-        $this->zfcUserAuthentication()->setAuthAdapter($this->getScnAuthAdapterChain());
+        $this->zfcUserAuthentication()->setAuthAdapter($this->getScnSocialAuthAuthenticationAdapterChain());
 
         // Adding the provider to request metadata to be used by HybridAuth adapter
         $this->getRequest()->setMetadata('provider', $provider);
@@ -211,6 +215,10 @@ class UserController extends AbstractActionController
      */
     public function getMapper()
     {
+        if (!$this->mapper instanceof UserProviderInterface) {
+            $this->setMapper($this->getServiceLocator()->get('ScnSocialAuth-UserProviderMapper'));
+        }
+
         return $this->mapper;
     }
 
@@ -221,6 +229,10 @@ class UserController extends AbstractActionController
      */
     public function getHybridAuth()
     {
+        if (!$this->hybridAuth) {
+            $this->hybridAuth = $this->getServiceLocator()->get('HybridAuth');
+        }
+
         return $this->hybridAuth;
     }
 
@@ -235,29 +247,6 @@ class UserController extends AbstractActionController
         $this->hybridAuth = $hybridAuth;
 
         return $this;
-    }
-
-    /**
-     * Set the scnAuthAdapterChain
-     *
-     * @param \ZfcUser\Authentication\Adapter\AdapterChain
-     * @return UserController
-     */
-    public function setScnAuthAdapterChain(\ZfcUser\Authentication\Adapter\AdapterChain $chain)
-    {
-        $this->scnAuthAdapterChain = $chain;
-
-        return $this;
-    }
-
-    /**
-     * Get the scnAuthAdapterChain
-     *
-     * @return \ZfcUser\Authentication\Adapter\AdapterChain
-     */
-    public function getScnAuthAdapterChain()
-    {
-        return $this->scnAuthAdapterChain;
     }
 
     /**
@@ -280,6 +269,10 @@ class UserController extends AbstractActionController
      */
     public function getOptions()
     {
+        if (!$this->options instanceof ModuleOptions) {
+            $this->setOptions($this->getServiceLocator()->get('ScnSocialAuth-ModuleOptions'));
+        }
+
         return $this->options;
     }
 
@@ -297,5 +290,18 @@ class UserController extends AbstractActionController
     public function setZfcModuleOptions($zfcmoduleoptions)
     {
         $this->zfcmoduleoptions = $zfcmoduleoptions;
+    }
+
+    /**
+     * @return \ZfcUser\Options\ModuleOptions
+     */
+    public function getScnSocialAuthAuthenticationAdapterChain()
+    {
+        return $this->ScnSocialAuthAuthenticationAdapterChain;
+    }
+
+
+    public function setScnSocialAuthAuthenticationAdapterChain($ScnSocialAuthAuthenticationAdapterChain){
+        $this->ScnSocialAuthAuthenticationAdapterChain = $ScnSocialAuthAuthenticationAdapterChain;
     }
 }

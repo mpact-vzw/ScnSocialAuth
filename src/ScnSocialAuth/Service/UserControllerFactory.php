@@ -9,8 +9,8 @@
 namespace ScnSocialAuth\Service;
 
 use ScnSocialAuth\Controller\UserController;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * @category   ScnSocialAuth
@@ -24,19 +24,19 @@ class UserControllerFactory implements FactoryInterface
         $moduleOptions = $controllerManager->getServiceLocator()->get('ScnSocialAuth-ModuleOptions');
         $redirectCallback = $controllerManager->getServiceLocator()->get('zfcuser_redirect_callback');
         $zfcuserModuleOptions = $controllerManager->getServiceLocator()->get('zfcuser_module_options');
-        $scnAuthAdapterChain = $controllerManager->getServiceLocator()->get('ScnSocialAuth-AuthenticationAdapterChain');
+        $ScnSocialAuthAuthenticationAdapterChain = $controllerManager->getServiceLocator()->get('ScnSocialAuth-AuthenticationAdapterChain');
+        $hybridAuth = $controllerManager->getServiceLocator()->get('HybridAuth');
 
-        $controller = new UserController($redirectCallback);
+        $controller = new UserController($redirectCallback, $ScnSocialAuthAuthenticationAdapterChain, $hybridAuth);
         $controller->setMapper($mapper);
         $controller->setOptions($moduleOptions);
         $controller->setZfcModuleOptions($zfcuserModuleOptions);
-        $controller->setScnAuthAdapterChain($scnAuthAdapterChain);
 
         try {
-            $hybridAuth = $controllerManager->getServiceLocator()->get('HybridAuth');
-            $controller->setHybridAuth($hybridAuth);
-        } catch (\Zend\ServiceManager\Exception\ServiceNotCreatedException $e) {
-            // This is likely the user cancelling login...
+          $hybridAuth = $controllerManager->getServiceLocator()->get('HybridAuth');
+          $controller->setHybridAuth($hybridAuth);
+        } catch (\Laminas\ServiceManager\Exception\ServiceNotCreatedException $e) {
+          // This is likely the user cancelling login...
         }
 
         return $controller;
