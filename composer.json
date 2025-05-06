@@ -17,25 +17,9 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "laminas/laminas-authentication": "2.*",
-        "laminas/laminas-db": "2.*",
-        "laminas/laminas-eventmanager": "2.*",
-        "laminas/laminas-http": "2.*",
-        "laminas/laminas-i18n": "2.*",
-        "laminas/laminas-loader": "2.*",
-        "laminas/laminas-log": "2.*",
-        "laminas/laminas-modulemanager": "2.*",
-        "laminas/laminas-mvc": "2.*",
-        "laminas/laminas-serializer": "2.*",
-        "laminas/laminas-servicemanager": "2.*",
-        "laminas/laminas-session": "2.*",
-        "laminas/laminas-stdlib": "2.*",
-        "laminas/laminas-test": "2.*",
-        "laminas/laminas-uri": "2.*",
-        "laminas/laminas-view": "2.*",
-        "zf-commons/zfc-base": "0.1.*",
-        "zf-commons/zfc-user": "1.4.*",
-        "hybridauth/hybridauth": "2.13.*"
+        "laminas/laminas-authentication": "^2.18",
+        "lm-commons/lmc-user": "3.*",
+        "hybridauth/hybridauth": "3.*"
     },
     "require-dev": {
         "mockery/mockery": "0.8.0"
