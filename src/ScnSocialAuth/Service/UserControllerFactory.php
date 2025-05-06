@@ -9,8 +9,8 @@
 namespace ScnSocialAuth\Service;
 
 use ScnSocialAuth\Controller\UserController;
-use Laminas\ServiceManager\FactoryInterface;
-use Laminas\ServiceManager\ServiceLocatorInterface;
+use Psr\Container\ContainerInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 /**
  * @category   ScnSocialAuth
@@ -18,22 +18,22 @@ use Laminas\ServiceManager\ServiceLocatorInterface;
  */
 class UserControllerFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $controllerManager)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
-        $mapper = $controllerManager->getServiceLocator()->get('ScnSocialAuth-UserProviderMapper');
-        $moduleOptions = $controllerManager->getServiceLocator()->get('ScnSocialAuth-ModuleOptions');
-        $redirectCallback = $controllerManager->getServiceLocator()->get('zfcuser_redirect_callback');
-        $zfcuserModuleOptions = $controllerManager->getServiceLocator()->get('zfcuser_module_options');
-        $ScnSocialAuthAuthenticationAdapterChain = $controllerManager->getServiceLocator()->get('ScnSocialAuth-AuthenticationAdapterChain');
-        $hybridAuth = $controllerManager->getServiceLocator()->get('HybridAuth');
+        $mapper = $container->get('ScnSocialAuth-UserProviderMapper');
+        $moduleOptions = $container->get('ScnSocialAuth-ModuleOptions');
+        $redirectCallback = $container->get('lmcuser_redirect_callback');
+        $lmcuserModuleOptions = $container->get('lmcuser_module_options');
+        $ScnSocialAuthAuthenticationAdapterChain = $container->get('ScnSocialAuth-AuthenticationAdapterChain');
+        $hybridAuth = $container->get('HybridAuth');
 
         $controller = new UserController($redirectCallback, $ScnSocialAuthAuthenticationAdapterChain, $hybridAuth);
         $controller->setMapper($mapper);
         $controller->setOptions($moduleOptions);
-        $controller->setZfcModuleOptions($zfcuserModuleOptions);
+        $controller->setLmcModuleOptions($lmcuserModuleOptions);
 
         try {
-          $hybridAuth = $controllerManager->getServiceLocator()->get('HybridAuth');
+          $hybridAuth = $container->get('HybridAuth');
           $controller->setHybridAuth($hybridAuth);
         } catch (\Laminas\ServiceManager\Exception\ServiceNotCreatedException $e) {
           // This is likely the user cancelling login...

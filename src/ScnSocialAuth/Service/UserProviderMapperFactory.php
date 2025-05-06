@@ -9,9 +9,9 @@
 namespace ScnSocialAuth\Service;
 
 use ScnSocialAuth\Mapper\UserProvider;
-use Laminas\ServiceManager\FactoryInterface;
-use Laminas\ServiceManager\ServiceLocatorInterface;
-use Laminas\Stdlib\Hydrator;
+use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Container\ContainerInterface;
+use Laminas\Hydrator\ClassMethodsHydrator;
 
 /**
  * @category   ScnSocialAuth
@@ -19,15 +19,15 @@ use Laminas\Stdlib\Hydrator;
  */
 class UserProviderMapperFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $services)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
-        $options = $services->get('ScnSocialAuth-ModuleOptions');
+        $options = $container->get('ScnSocialAuth-ModuleOptions');
         $entityClass = $options->getUserProviderEntityClass();
 
         $mapper = new UserProvider();
-        $mapper->setDbAdapter($services->get('ScnSocialAuth_ZendDbAdapter'));
+        $mapper->setDbAdapter($container->get('ScnSocialAuth_LaminasDbAdapter'));
         $mapper->setEntityPrototype(new $entityClass);
-        $mapper->setHydrator(new Hydrator\ClassMethods);
+        $mapper->setHydrator(new ClassMethodsHydrator);
 
         return $mapper;
     }

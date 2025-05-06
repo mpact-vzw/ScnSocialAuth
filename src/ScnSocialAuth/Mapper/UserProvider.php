@@ -4,7 +4,7 @@ namespace ScnSocialAuth\Mapper;
 
 use Hybrid_User_Profile;
 use ScnSocialAuth\Entity\UserProvider as UserProviderEntity;
-use Laminas\Stdlib\Hydrator\HydratorInterface;
+use Laminas\Hydrator\HydratorInterface;
 use LmcUser\Mapper\AbstractDbMapper;
 use ZfcUser\Entity\UserInterface;
 

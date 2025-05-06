@@ -9,8 +9,9 @@
 namespace ScnSocialAuth\Service;
 
 use ScnSocialAuth\Options;
-use Laminas\ServiceManager\FactoryInterface;
-use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Container\ContainerInterface;
+
 
 /**
  * @category   ScnSocialAuth
@@ -18,9 +19,9 @@ use Laminas\ServiceManager\ServiceLocatorInterface;
  */
 class ModuleOptionsFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $services)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
-        $config = $services->get('Configuration');
+        $config = $container->get('Configuration');
 
         return new Options\ModuleOptions(isset($config['scn-social-auth']) ? $config['scn-social-auth'] : array());
     }

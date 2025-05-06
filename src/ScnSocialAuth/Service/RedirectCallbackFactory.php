@@ -9,8 +9,9 @@
 namespace ScnSocialAuth\Service;
 
 use ScnSocialAuth\Controller\RedirectCallback;
-use Laminas\ServiceManager\FactoryInterface;
-use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Container\ContainerInterface;
+
 
 /**
  * @category   ScnSocialAuth
@@ -18,11 +19,11 @@ use Laminas\ServiceManager\ServiceLocatorInterface;
  */
 class RedirectCallbackFactory implements FactoryInterface
 {
-  public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
   {
-    $router = $serviceLocator->get('Router');
-    $application = $serviceLocator->get('Application');
-    $options = $serviceLocator->get('zfcuser_module_options');
+    $router = $container->get('Router');
+    $application = $container->get('Application');
+    $options = $container->get('lmcuser_module_options');
 
     return new RedirectCallback($application, $router, $options);
   }
