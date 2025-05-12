@@ -12,7 +12,7 @@ use Laminas\Mvc\Application;
 use Laminas\Mvc\Router\RouteInterface;
 use Laminas\Mvc\Router\Exception;
 use Laminas\Http\PhpEnvironment\Response;
-use ZfcUser\Options\ModuleOptions;
+use LmcUser\Options\ModuleOptions;
 
 /**
  * @category   ScnSocialAuth
@@ -112,7 +112,7 @@ class RedirectCallback
         }
 
         switch ($currentRoute) {
-            case 'zfcuser/login':
+            case 'lmcuser/login':
             case 'scn-social-auth-user/login':
             case 'scn-social-auth-user/register':
             case 'scn-social-auth-user/authenticate/provider':
@@ -121,14 +121,14 @@ class RedirectCallback
 
                 return $this->router->assemble(array(), array('name' => $route));
                 break;
-            case 'zfcuser/logout':
+            case 'lmcuser/logout':
             case 'scn-social-auth-user/logout':
                 $route = ($redirect) ?: $this->options->getLogoutRedirectRoute();
 
                 return $this->router->assemble(array(), array('name' => $route));
                 break;
             default:
-                return $this->router->assemble(array(), array('name' => 'zfcuser'));
+                return $this->router->assemble(array(), array('name' => 'lmcuser'));
         }
     }
 }

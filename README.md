@@ -1,6 +1,6 @@
 ScnSocialAuth
 =============
-Uses the HybridAuth PHP library to Enable authentication via Google, Facebook, Twitter, Yahoo!, etc for the ZfcUser ZF2 module.
+Uses the HybridAuth PHP library to Enable authentication via Google, Facebook, Twitter, Yahoo!, etc for the LmcUser module.
 
 [![Build Status](https://travis-ci.org/SocalNick/ScnSocialAuth.png)](https://travis-ci.org/SocalNick/ScnSocialAuth) [![Latest Stable Version](https://poser.pugx.org/socalnick/scn-social-auth/v/stable.png)](https://packagist.org/packages/socalnick/scn-social-auth) [![Total Downloads](https://poser.pugx.org/socalnick/scn-social-auth/downloads.png)](https://packagist.org/packages/socalnick/scn-social-auth)
 [![Dependency Status](https://www.versioneye.com/php/socalnick:scn-social-auth/badge.svg)](https://www.versioneye.com/php/socalnick:scn-social-auth/)
@@ -12,9 +12,8 @@ Demo
 
 Requirements
 ------------
-* [Zend Framework 2](https://github.com/zendframework/zf2) (2.*)
-* [ZfcBase](https://github.com/ZF-Commons/ZfcBase) (0.1.*)
-* [ZfcUser](https://github.com/ZF-Commons/ZfcUser) (1.4.*)
+* [Laminas]
+* [LmcUser](https://github.com/ZF-Commons/LmcUser)
 * [HybridAuth](https://github.com/hybridauth/hybridauth) (2.6.*)
 * Extension php_curl enabled in php.ini
 
@@ -49,7 +48,7 @@ It is recommended to add this module to your Zend Framework 2 application using 
     "license": "BSD-3-Clause",
     "keywords": [
         "framework",
-        "zf2"
+        "laminas"
     ],
     "homepage": "http://framework.zend.com/",
     "require": {
@@ -67,8 +66,7 @@ return array(
     'modules' => array(
         'Application',
         'ScnSocialAuth',
-        'ZfcBase',
-        'ZfcUser',
+        'LmcUser',
     ),
     'module_listener_options' => array(
         'config_glob_paths'    => array(
@@ -82,7 +80,7 @@ return array(
 );
 ```
 
-Import the schemas for ZfcUser (`./vendor/zf-commons/zfc-user/data/schema.sql`) and ScnSocialAuth (`./vendor/socalnick/scn-social-auth/data/schema.sql`).
+Import the schemas for LmcUser (`./vendor/lm-commons/lmc-user/data/schema.sql`) and ScnSocialAuth (`./vendor/socalnick/scn-social-auth/data/schema.sql`).
 
 If you do not already have a valid Laminas\Db\Adapter\Adapter in your service
 manager configuration, put the following in `./config/autoload/database.local.php`:
@@ -130,7 +128,7 @@ return array(
 
 Options
 -------
-Make sure to check the options available in ZfcUser: https://github.com/ZF-Commons/ZfcUser#options
+Make sure to check the options available in LmcUser: https://github.com/ZF-Commons/LmcUser#options
 
 The ScnSocialAuth module has two files that allow you to configure supported providers.
 After installing ScnSocialAuth, copy

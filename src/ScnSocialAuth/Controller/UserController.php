@@ -27,12 +27,12 @@ class UserController extends AbstractActionController
     protected $options;
 
     /**
-     * @var \ZfcUser\Options\ModuleOptions
+     * @var \LmcUser\Options\ModuleOptions
      */
-    protected $zfcmoduleoptions;
+    protected $lmcmoduleoptions;
 
     /**
-     * @var \ZfcUser\Options\ModuleOptions
+     * @var \LmcUser\Options\ModuleOptions
      */
     protected $ScnSocialAuthAuthenticationAdapterChain;
 
@@ -70,20 +70,20 @@ class UserController extends AbstractActionController
             return $this->notFoundAction();
         }
 
-        $authService = $this->zfcUserAuthentication()->getAuthService();
+        $authService = $this->lmcUserAuthentication()->getAuthService();
 
         // If user is not logged in, redirect to login page
         if (!$authService->hasIdentity()) {
-            return $this->redirect()->toRoute('zfcuser/login');
+            return $this->redirect()->toRoute('lmcuser/login');
         }
 
         $hybridAuth = $this->getHybridAuth();
         $adapter = $hybridAuth->authenticate($provider);
 
         if (!$adapter->isUserConnected()) {
-            $this->flashMessenger()->setNamespace('zfcuser-index')->addMessage($this->failedAddProviderMessage);
+            $this->flashMessenger()->setNamespace('lmcuser-index')->addMessage($this->failedAddProviderMessage);
 
-            return $this->redirect()->toRoute('zfcuser');
+            return $this->redirect()->toRoute('lmcuser');
         }
 
         $localUser = $authService->getIdentity();
@@ -93,7 +93,7 @@ class UserController extends AbstractActionController
         try {
             $this->getMapper()->linkUserToProvider($localUser, $userProfile, $provider, $accessToken);
         } catch (MapperException\ExceptionInterface $e) {
-            $this->flashMessenger()->setNamespace('zfcuser-index')->addMessage($e->getMessage());
+            $this->flashMessenger()->setNamespace('lmcuser-index')->addMessage($e->getMessage());
         }
 
         $redirect = $this->redirectCallback;
@@ -110,7 +110,7 @@ class UserController extends AbstractActionController
         $hybridAuth = $this->getHybridAuth();
 
         $query = array();
-        if ($this->getZfcModuleOptions()->getUseRedirectParameterIfPresent() && $this->getRequest()->getQuery()->get('redirect')) {
+        if ($this->getLmcModuleOptions()->getUseRedirectParameterIfPresent() && $this->getRequest()->getQuery()->get('redirect')) {
             $query = array('redirect' => $this->getRequest()->getQuery()->get('redirect'));
         }
         $redirectUrl = $this->url()->fromRoute('scn-social-auth-user/authenticate/provider', array('provider' => $provider), array('query' => $query));
@@ -129,16 +129,16 @@ class UserController extends AbstractActionController
 
     public function loginAction()
     {
-        $zfcUserLogin = $this->forward()->dispatch('zfcuser', array('action' => 'login'));
-        if (!$zfcUserLogin instanceof ModelInterface) {
-            return $zfcUserLogin;
+        $lmcUserLogin = $this->forward()->dispatch('lmcuser', array('action' => 'login'));
+        if (!$lmcUserLogin instanceof ModelInterface) {
+            return $lmcUserLogin;
         }
         $viewModel = new ViewModel();
-        $viewModel->addChild($zfcUserLogin, 'zfcUserLogin');
+        $viewModel->addChild($lmcUserLogin, 'lmcUserLogin');
         $viewModel->setVariable('options', $this->getOptions());
 
         $redirect = false;
-        if ($this->getZfcModuleOptions()->getUseRedirectParameterIfPresent() && $this->getRequest()->getQuery()->get('redirect')) {
+        if ($this->getLmcModuleOptions()->getUseRedirectParameterIfPresent() && $this->getRequest()->getQuery()->get('redirect')) {
             $redirect = $this->getRequest()->getQuery()->get('redirect');
         }
         $viewModel->setVariable('redirect', $redirect);
@@ -150,7 +150,7 @@ class UserController extends AbstractActionController
     {
         Hybrid_Auth::logoutAllProviders();
 
-        return $this->forward()->dispatch('zfcuser', array('action' => 'logout'));
+        return $this->forward()->dispatch('lmcuser', array('action' => 'logout'));
     }
 
     public function providerAuthenticateAction()
@@ -163,31 +163,31 @@ class UserController extends AbstractActionController
 
         if (!$this->hybridAuth) {
             // This is likely user that cancelled login...
-            return $this->redirect()->toRoute('zfcuser/login');
+            return $this->redirect()->toRoute('lmcuser/login');
         }
 
-        // For provider authentication, change the auth adapter in the ZfcUser Controller Plugin
-        $this->zfcUserAuthentication()->setAuthAdapter($this->getScnSocialAuthAuthenticationAdapterChain());
+        // For provider authentication, change the auth adapter in the LmcUser Controller Plugin
+        $this->lmcUserAuthentication()->setAuthAdapter($this->getScnSocialAuthAuthenticationAdapterChain());
 
         // Adding the provider to request metadata to be used by HybridAuth adapter
         $this->getRequest()->setMetadata('provider', $provider);
 
-        // Forward to the ZfcUser Authenticate action
-        return $this->forward()->dispatch('zfcuser', array('action' => 'authenticate'));
+        // Forward to the LmcUser Authenticate action
+        return $this->forward()->dispatch('lmcuser', array('action' => 'authenticate'));
     }
 
     public function registerAction()
     {
-        $zfcUserRegister = $this->forward()->dispatch('zfcuser', array('action' => 'register'));
-        if (!$zfcUserRegister instanceof ModelInterface) {
-            return $zfcUserRegister;
+        $lmcUserRegister = $this->forward()->dispatch('lmcuser', array('action' => 'register'));
+        if (!$lmcUserRegister instanceof ModelInterface) {
+            return $lmcUserRegister;
         }
         $viewModel = new ViewModel();
-        $viewModel->addChild($zfcUserRegister, 'zfcUserLogin');
+        $viewModel->addChild($lmcUserRegister, 'lmcUserLogin');
         $viewModel->setVariable('options', $this->getOptions());
 
         $redirect = false;
-        if ($this->getZfcModuleOptions()->getUseRedirectParameterIfPresent() && $this->getRequest()->getQuery()->get('redirect')) {
+        if ($this->getLmcModuleOptions()->getUseRedirectParameterIfPresent() && $this->getRequest()->getQuery()->get('redirect')) {
             $redirect = $this->getRequest()->getQuery()->get('redirect');
         }
         $viewModel->setVariable('redirect', $redirect);
@@ -277,23 +277,23 @@ class UserController extends AbstractActionController
     }
 
     /**
-     * @return \ZfcUser\Options\ModuleOptions
+     * @return \LmcUser\Options\ModuleOptions
      */
-    public function getZfcModuleOptions()
+    public function getLmcModuleOptions()
     {
-        return $this->zfcmoduleoptions;
+        return $this->lmcmoduleoptions;
     }
 
     /**
-     * @param \ZfcUser\Options\ModuleOptions $zfcmoduleoptions
+     * @param \LmcUser\Options\ModuleOptions $lmcmoduleoptions
      */
-    public function setZfcModuleOptions($zfcmoduleoptions)
+    public function setLmcModuleOptions($lmcmoduleoptions)
     {
-        $this->zfcmoduleoptions = $zfcmoduleoptions;
+        $this->lmcmoduleoptions = $lmcmoduleoptions;
     }
 
     /**
-     * @return \ZfcUser\Options\ModuleOptions
+     * @return \LmcUser\Options\ModuleOptions
      */
     public function getScnSocialAuthAuthenticationAdapterChain()
     {

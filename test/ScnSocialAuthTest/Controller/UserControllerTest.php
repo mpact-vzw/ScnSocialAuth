@@ -93,16 +93,16 @@ class UserControllerTest extends TestCase
         $this->controller->dispatch($request);
     }
 
-    public function testLoginProxiesToZfcUserAndReturnsNonModelInterface()
+    public function testLoginProxiesToLmcUserAndReturnsNonModelInterface()
     {
         /** @var $forwardPlugin \Mockery\MockInterface */
         $forwardPlugin = $this->pm->get('forward');
         $forwardPlugin->shouldReceive('dispatch')
-            ->with('zfcuser', array('action' => 'login'))
-            ->andReturn('zfc-user-login');
+            ->with('lmcuser', array('action' => 'login'))
+            ->andReturn('lmc-user-login');
 
         $result = $this->dispatch('login');
-        $this->assertEquals('zfc-user-login', $result);
+        $this->assertEquals('lmc-user-login', $result);
     }
 
     public function testProviderLoginInvalidProvider()

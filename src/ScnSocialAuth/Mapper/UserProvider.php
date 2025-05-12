@@ -6,7 +6,7 @@ use Hybrid_User_Profile;
 use ScnSocialAuth\Entity\UserProvider as UserProviderEntity;
 use Laminas\Hydrator\HydratorInterface;
 use LmcUser\Mapper\AbstractDbMapper;
-use ZfcUser\Entity\UserInterface;
+use LmcUser\Entity\UserInterface;
 
 class UserProvider extends AbstractDbMapper implements UserProviderInterface
 {

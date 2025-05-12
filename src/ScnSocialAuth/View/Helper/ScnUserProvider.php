@@ -4,7 +4,7 @@ namespace ScnSocialAuth\View\Helper;
 
 use ScnSocialAuth\Mapper\UserProviderInterface as UserProviderMapper;
 use Laminas\View\Helper\AbstractHelper;
-use ZfcUser\Entity\UserInterface;
+use LmcUser\Entity\UserInterface;
 
 class ScnUserProvider extends AbstractHelper
 {

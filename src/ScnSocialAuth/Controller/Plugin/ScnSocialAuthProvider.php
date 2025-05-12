@@ -6,7 +6,7 @@ use ScnSocialAuth\Mapper\UserProviderInterface;
 use Laminas\Mvc\Controller\Plugin\AbstractPlugin;
 use Laminas\ServiceManager\ServiceLocatorAwareInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
-use ZfcUser\Entity\UserInterface;
+use LmcUser\Entity\UserInterface;
 
 class ScnSocialAuthProvider extends AbstractPlugin implements ServiceLocatorAwareInterface
 {

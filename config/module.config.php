@@ -30,7 +30,7 @@ return array(
                 'options' => array(
                     'route' => '/user',
                     'defaults' => array(
-                        'controller' => 'zfcuser',
+                        'controller' => 'lmcuser',
                         'action'     => 'index',
                     ),
                 ),
@@ -41,7 +41,7 @@ return array(
                         'options' => array(
                             'route' => '/authenticate',
                             'defaults' => array(
-                                'controller' => 'zfcuser',
+                                'controller' => 'lmcuser',
                                 'action'     => 'authenticate',
                             ),
                         ),
@@ -135,7 +135,7 @@ return array(
     ),
     'service_manager' => array(
         'aliases' => array(
-            'ScnSocialAuth_ZendDbAdapter' => 'Laminas\Db\Adapter\Adapter',
+            'ScnSocialAuth_LaminasDbAdapter' => 'Laminas\Db\Adapter\Adapter',
             'ScnSocialAuth_ZendSessionManager' => 'Laminas\Session\SessionManager',
         ),
         'factories' => array(
@@ -144,7 +144,7 @@ return array(
             'ScnSocialAuth-UserProviderMapper' => 'ScnSocialAuth\Service\UserProviderMapperFactory',
             'ScnSocialAuth-AuthenticationAdapterChain' => 'ScnSocialAuth\Service\AuthenticationAdapterChainFactory',
             'ScnSocialAuth\Authentication\Adapter\HybridAuth' => 'ScnSocialAuth\Service\HybridAuthAdapterFactory',
-            'zfcuser_redirect_callback' => 'ScnSocialAuth\Service\RedirectCallbackFactory',
+            'lmcuser_redirect_callback' => 'ScnSocialAuth\Service\RedirectCallbackFactory',
         ),
     ),
     'view_helpers' => array(

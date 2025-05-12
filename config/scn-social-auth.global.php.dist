@@ -10,9 +10,9 @@ $settings = array(
      * Laminas\Db\Adapter\Adapter DI Alias
      *
      * Please specify the DI alias for the configured Laminas\Db\Adapter\Adapter
-     * instance that ZfcUser should use.
+     * instance that LmcUser should use.
      */
-    //'zend_db_adapter' => 'Laminas\Db\Adapter\Adapter',
+    //'laminas_db_adapter' => 'Laminas\Db\Adapter\Adapter',
 
     /**
      * Laminas\Session\SessionManager DI Alias
@@ -20,7 +20,7 @@ $settings = array(
      * Please specify the DI alias for the configured Laminas\Session\SessionManager
      * instance that ScnSocialAuth should use.
      */
-    //'zend_session_manager' => 'Laminas\Session\SessionManager',
+    //'laminas_session_manager' => 'Laminas\Session\SessionManager',
 
     /**
      * User Provider Entity Class
@@ -187,7 +187,7 @@ $settings = array(
 
     /**
      * Set to true if you want to display only the social login buttons without
-     * the username/password etc. from ZfcUser.
+     * the username/password etc. from LmcUser.
      */
     //'social_login_only' => false,
 
@@ -211,8 +211,8 @@ return array(
     'scn-social-auth' => $settings,
     'service_manager' => array(
         'aliases' => array(
-            'ScnSocialAuth_ZendDbAdapter' => (isset($settings['zend_db_adapter'])) ? $settings['zend_db_adapter']: 'Laminas\Db\Adapter\Adapter',
-            'ScnSocialAuth_ZendSessionManager' => (isset($settings['zend_session_manager'])) ? $settings['zend_session_manager']: 'Laminas\Session\SessionManager',
+            'ScnSocialAuth_LaminasDbAdapter' => (isset($settings['laminas_db_adapter'])) ? $settings['laminas_db_adapter']: 'Laminas\Db\Adapter\Adapter',
+            'ScnSocialAuth_ZendSessionManager' => (isset($settings['laminas_session_manager'])) ? $settings['laminas_session_manager']: 'Laminas\Session\SessionManager',
         ),
     ),
 );

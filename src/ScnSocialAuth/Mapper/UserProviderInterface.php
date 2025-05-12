@@ -4,7 +4,7 @@ namespace ScnSocialAuth\Mapper;
 
 use Hybrid_User_Profile;
 use ScnSocialAuth\Entity\UserProvider as UserProviderEntity;
-use ZfcUser\Entity\UserInterface;
+use LmcUser\Entity\UserInterface;
 
 interface UserProviderInterface
 {

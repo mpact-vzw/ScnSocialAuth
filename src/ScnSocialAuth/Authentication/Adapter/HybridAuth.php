@@ -8,11 +8,11 @@ use ScnSocialAuth\Options\ModuleOptions;
 use Laminas\Authentication\Result;
 use Laminas\ServiceManager\ServiceManagerAwareInterface;
 use Laminas\ServiceManager\ServiceManager;
-use ZfcUser\Authentication\Adapter\AbstractAdapter;
-use ZfcUser\Authentication\Adapter\AdapterChainEvent as AuthEvent;
-use ZfcUser\Entity\UserInterface;
-use ZfcUser\Mapper\UserInterface as UserMapperInterface;
-use ZfcUser\Options\UserServiceOptionsInterface;
+use LmcUser\Authentication\Adapter\AbstractAdapter;
+use LmcUser\Authentication\Adapter\AdapterChainEvent as AuthEvent;
+use LmcUser\Entity\UserInterface;
+use LmcUser\Mapper\UserInterface as UserMapperInterface;
+use LmcUser\Options\UserServiceOptionsInterface;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\EventManager;
 use Laminas\EventManager\EventManagerAwareInterface;
@@ -37,7 +37,7 @@ class HybridAuth extends AbstractAdapter implements /*ServiceManagerAwareInterfa
     /**
      * @var UserServiceOptionsInterface
      */
-    protected $zfcUserOptions;
+    protected $lmcUserOptions;
 
     /**
      * @var UserProviderInterface
@@ -47,7 +47,7 @@ class HybridAuth extends AbstractAdapter implements /*ServiceManagerAwareInterfa
     /**
      * @var UserMapperInterface
      */
-    protected $zfcUserMapper;
+    protected $lmcUserMapper;
 
     /**
      * @var EventManagerInterface
@@ -145,7 +145,7 @@ class HybridAuth extends AbstractAdapter implements /*ServiceManagerAwareInterfa
             // Trigger register.post event
             $this->getEventManager()->trigger('register.post', $this, array('user' => $localUser, 'userProvider' => $localUserProvider));
         } else {
-            $mapper = $this->getZfcUserMapper();
+            $mapper = $this->getLmcUserMapper();
             $localUser = $mapper->findById($localUserProvider->getUserId());
 
             $this->getEventManager()->trigger('authentication.pre', $this, array('user' => $localUser, 'userProvider' => $localUserProvider, 'userProfile' => $userProfile));
@@ -155,13 +155,13 @@ class HybridAuth extends AbstractAdapter implements /*ServiceManagerAwareInterfa
             }
         }
 
-        $zfcUserOptions = $this->getZfcUserOptions();
+        $lmcUserOptions = $this->getLmcUserOptions();
 
-        if ($zfcUserOptions->getEnableUserState()) {
+        if ($lmcUserOptions->getEnableUserState()) {
             // Don't allow user to login if state is not in allowed list
-            $mapper = $this->getZfcUserMapper();
+            $mapper = $this->getLmcUserMapper();
             $user = $mapper->findById($localUserProvider->getUserId());
-            if (!in_array($user->getState(), $zfcUserOptions->getAllowedLoginStates())) {
+            if (!in_array($user->getState(), $lmcUserOptions->getAllowedLoginStates())) {
                 $authEvent->setCode(Result::FAILURE_UNCATEGORIZED)
                   ->setMessages(array('A record with the supplied identity is not active.'));
                 $this->setSatisfied(false);
@@ -259,9 +259,9 @@ class HybridAuth extends AbstractAdapter implements /*ServiceManagerAwareInterfa
      * @param  UserServiceOptionsInterface $options
      * @return HybridAuth
      */
-    public function setZfcUserOptions(UserServiceOptionsInterface $options)
+    public function setLmcUserOptions(UserServiceOptionsInterface $options)
     {
-        $this->zfcUserOptions = $options;
+        $this->lmcUserOptions = $options;
 
         return $this;
     }
@@ -269,13 +269,13 @@ class HybridAuth extends AbstractAdapter implements /*ServiceManagerAwareInterfa
     /**
      * @return UserServiceOptionsInterface
      */
-    public function getZfcUserOptions()
+    public function getLmcUserOptions()
     {
-        if (!$this->zfcUserOptions instanceof UserServiceOptionsInterface) {
-            $this->setZfcUserOptions($this->getServiceManager()->get('zfcuser_module_options'));
+        if (!$this->lmcUserOptions instanceof UserServiceOptionsInterface) {
+            $this->setLmcUserOptions($this->getServiceManager()->get('lmcuser_module_options'));
         }
 
-        return $this->zfcUserOptions;
+        return $this->lmcUserOptions;
     }
 
     /**
@@ -306,30 +306,30 @@ class HybridAuth extends AbstractAdapter implements /*ServiceManagerAwareInterfa
     }
 
     /**
-     * set zfcUserMapper
+     * set lmcUserMapper
      *
-     * @param  UserMapperInterface $zfcUserMapper
+     * @param  UserMapperInterface $lmcUserMapper
      * @return HybridAuth
      */
-    public function setZfcUserMapper(UserMapperInterface $zfcUserMapper)
+    public function setLmcUserMapper(UserMapperInterface $lmcUserMapper)
     {
-        $this->zfcUserMapper = $zfcUserMapper;
+        $this->lmcUserMapper = $lmcUserMapper;
 
         return $this;
     }
 
     /**
-     * get zfcUserMapper
+     * get lmcUserMapper
      *
      * @return UserMapperInterface
      */
-    public function getZfcUserMapper()
+    public function getLmcUserMapper()
     {
-        if (!$this->zfcUserMapper instanceof UserMapperInterface) {
-            $this->setZfcUserMapper($this->getServiceManager()->get('zfcuser_user_mapper'));
+        if (!$this->lmcUserMapper instanceof UserMapperInterface) {
+            $this->setLmcUserMapper($this->getServiceManager()->get('lmcuser_user_mapper'));
         }
 
-        return $this->zfcUserMapper;
+        return $this->lmcUserMapper;
     }
 
     /**
@@ -339,7 +339,7 @@ class HybridAuth extends AbstractAdapter implements /*ServiceManagerAwareInterfa
      */
     protected function instantiateLocalUser()
     {
-        $userModelClass = $this->getZfcUserOptions()->getUserEntityClass();
+        $userModelClass = $this->getLmcUserOptions()->getUserEntityClass();
 
         return new $userModelClass;
     }
@@ -370,7 +370,7 @@ class HybridAuth extends AbstractAdapter implements /*ServiceManagerAwareInterfa
                 Result::FAILURE_CREDENTIAL_INVALID
             );
         }
-        $mapper = $this->getZfcUserMapper();
+        $mapper = $this->getLmcUserMapper();
         if (false != ($localUser = $mapper->findByEmail($userProfile->emailVerified))) {
             return $localUser;
         }
@@ -391,7 +391,7 @@ class HybridAuth extends AbstractAdapter implements /*ServiceManagerAwareInterfa
                 Result::FAILURE_CREDENTIAL_INVALID
             );
         }
-        $mapper = $this->getZfcUserMapper();
+        $mapper = $this->getLmcUserMapper();
         if (false != ($localUser = $mapper->findByEmail($userProfile->emailVerified))) {
             return $localUser;
         }
@@ -412,7 +412,7 @@ class HybridAuth extends AbstractAdapter implements /*ServiceManagerAwareInterfa
                 Result::FAILURE_CREDENTIAL_INVALID
             );
         }
-        $mapper = $this->getZfcUserMapper();
+        $mapper = $this->getLmcUserMapper();
         if (false != ($localUser = $mapper->findByEmail($userProfile->emailVerified))) {
             return $localUser;
         }
@@ -433,7 +433,7 @@ class HybridAuth extends AbstractAdapter implements /*ServiceManagerAwareInterfa
                 Result::FAILURE_CREDENTIAL_INVALID
             );
         }
-        $mapper = $this->getZfcUserMapper();
+        $mapper = $this->getLmcUserMapper();
         if (false != ($localUser = $mapper->findByEmail($userProfile->emailVerified))) {
             return $localUser;
         }
@@ -551,12 +551,12 @@ class HybridAuth extends AbstractAdapter implements /*ServiceManagerAwareInterfa
      */
     protected function insert($user, $provider, $userProfile)
     {
-        $zfcUserOptions = $this->getZfcUserOptions();
+        $lmcUserOptions = $this->getLmcUserOptions();
 
         // If user state is enabled, set the default state value
-        if ($zfcUserOptions->getEnableUserState()) {
-            if ($zfcUserOptions->getDefaultUserState()) {
-                $user->setState($zfcUserOptions->getDefaultUserState());
+        if ($lmcUserOptions->getEnableUserState()) {
+            if ($lmcUserOptions->getDefaultUserState()) {
+                $user->setState($lmcUserOptions->getDefaultUserState());
             }
         }
 
@@ -567,7 +567,7 @@ class HybridAuth extends AbstractAdapter implements /*ServiceManagerAwareInterfa
         );
 
         $this->getEventManager()->trigger('registerViaProvider', $this, $options);
-        $result = $this->getZfcUserMapper()->insert($user);
+        $result = $this->getLmcUserMapper()->insert($user);
         $this->getEventManager()->trigger('registerViaProvider.post', $this, $options);
 
         return $result;
@@ -591,7 +591,7 @@ class HybridAuth extends AbstractAdapter implements /*ServiceManagerAwareInterfa
         );
 
         $this->getEventManager()->trigger('scnUpdateUser.pre', $this, $options);
-        $result = $this->getZfcUserMapper()->update($user);
+        $result = $this->getLmcUserMapper()->update($user);
         $this->getEventManager()->trigger('scnUpdateUser.post', $this, $options);
 
         return $result;

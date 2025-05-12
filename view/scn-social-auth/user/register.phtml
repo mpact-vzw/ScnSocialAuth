@@ -8,5 +8,5 @@ foreach ($this->options->getEnabledProviders() as $provider) {
     echo '<dd>' . $this->socialSignInButton($provider, $this->redirect) . '</dd>';
 }
 if ($this->options->getSocialLoginOnly() == false) {
-    echo $this->zfcUserLogin;
+    echo $this->lmcUserLogin;
 }
