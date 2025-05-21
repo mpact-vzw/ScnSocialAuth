@@ -11,7 +11,7 @@ namespace ScnSocialAuth\Service;
 use Hybrid_Auth;
 use Laminas\Router\Http\TreeRouteStack;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
-use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -22,12 +22,17 @@ class HybridAuthFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $services)
     {
+        $this($services, null);
+    }
+
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
+    {
         // Making sure the SessionManager is initialized
         // before creating HybridAuth components
         $sessionManager = $container->get('ScnSocialAuth_LaminasSessionManager')->start();
 
         /* @var $options \ScnSocialAuth\Options\ModuleOptions */
-        $options = $services->get('ScnSocialAuth-ModuleOptions');
+        $options = $container->get('ScnSocialAuth-ModuleOptions');
 
         $baseUrl = $this->getBaseUrl($services);
 

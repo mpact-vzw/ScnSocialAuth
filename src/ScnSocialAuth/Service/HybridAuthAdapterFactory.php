@@ -9,7 +9,8 @@
 namespace ScnSocialAuth\Service;
 
 use ScnSocialAuth\Authentication\Adapter\HybridAuth as HybridAuthAdapter;
-use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Container\ContainerInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -20,12 +21,17 @@ class HybridAuthAdapterFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $services)
     {
-        $moduleOptions = $services->get('ScnSocialAuth-ModuleOptions');
-        $lmcUserOptions = $services->get('lmcuser_module_options');
+        $this($services, null);
+    }
 
-        $hybridAuth = $services->get('HybridAuth');
-        $mapper = $services->get('ScnSocialAuth-UserProviderMapper');
-        $lmcUserMapper = $services->get('lmcuser_user_mapper');
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
+    {
+        $moduleOptions = $container->get('ScnSocialAuth-ModuleOptions');
+        $lmcUserOptions = $container->get('lmcuser_module_options');
+
+        $hybridAuth = $container->get('HybridAuth');
+        $mapper = $container->get('ScnSocialAuth-UserProviderMapper');
+        $lmcUserMapper = $container->get('lmcuser_user_mapper');
 
         $adapter = new HybridAuthAdapter($hybridAuth);
         $adapter->setOptions($moduleOptions);

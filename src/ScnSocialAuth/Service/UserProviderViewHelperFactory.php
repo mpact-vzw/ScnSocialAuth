@@ -8,7 +8,7 @@
 
 namespace ScnSocialAuth\Service;
 
-use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -19,9 +19,13 @@ class UserProviderViewHelperFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator = $serviceLocator->getServiceLocator();
+        $this($services, null);
+    }
+
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
+    {
         $viewHelper = new \ScnSocialAuth\View\Helper\ScnUserProvider();
-        $viewHelper->setUserProviderMapper($serviceLocator->get('ScnSocialAuth-UserProviderMapper'));
+        $viewHelper->setUserProviderMapper($container->get('ScnSocialAuth-UserProviderMapper'));
 
         return $viewHelper;
     }

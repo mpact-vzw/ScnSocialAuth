@@ -9,7 +9,8 @@
 namespace ScnSocialAuth\Service;
 
 use ScnSocialAuth\Controller\HybridAuthController;
-use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Container\ContainerInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -20,11 +21,16 @@ class HybridAuthControllerFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $controllerManager)
     {
+        $this($services, null);
+    }
+
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
+    {
         // Just making sure to instantiate and configure
         // It's not actually needed in HybridAuthController
-        $hybridAuth = $controllerManager->getServiceLocator()->get('HybridAuth');
+        $hybridAuth = $container->get('HybridAuth');
 
-        $controller = new HybridAuthController();
+        $controller = new $requestedName();
 
         return $controller;
     }
