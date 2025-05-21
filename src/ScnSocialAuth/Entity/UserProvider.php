@@ -2,12 +2,11 @@
 
 namespace ScnSocialAuth\Entity;
 
-class UserProvider implements UserProviderInterface
+use LmcUser\Entity\User;
+
+class UserProvider extends User implements UserProviderInterface
 {
-    protected $userId;
-
     protected $providerId;
-
     protected $provider;
 
     /**
@@ -15,7 +14,7 @@ class UserProvider implements UserProviderInterface
      */
     public function getUserId()
     {
-        return $this->userId;
+        return $this->getId();
     }
 
     /**
@@ -24,8 +23,7 @@ class UserProvider implements UserProviderInterface
      */
     public function setUserId($userId)
     {
-        $this->userId = $userId;
-
+        $this->setId($userId);
         return $this;
     }
 

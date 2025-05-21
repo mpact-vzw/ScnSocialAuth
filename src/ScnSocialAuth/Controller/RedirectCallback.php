@@ -9,8 +9,8 @@
 namespace ScnSocialAuth\Controller;
 
 use Laminas\Mvc\Application;
-use Laminas\Mvc\Router\RouteInterface;
-use Laminas\Mvc\Router\Exception;
+use Laminas\Router\RouteInterface;
+use Laminas\Router\Exception;
 use Laminas\Http\PhpEnvironment\Response;
 use LmcUser\Options\ModuleOptions;
 
