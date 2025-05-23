@@ -7,7 +7,7 @@
 namespace ScnSocialAuthTest\Service;
 
 use ScnSocialAuth\Service\HybridAuthFactory;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Laminas\Http\PhpEnvironment\Request;
 use Laminas\Mvc\Router\Http\TreeRouteStack;
 use Laminas\Mvc\Router\Console\SimpleRouteStack;

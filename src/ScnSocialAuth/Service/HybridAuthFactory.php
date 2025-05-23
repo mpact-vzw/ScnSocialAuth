@@ -35,7 +35,7 @@ class HybridAuthFactory implements FactoryInterface
         /* @var $options \ScnSocialAuth\Options\ModuleOptions */
         $options = $container->get('ScnSocialAuth-ModuleOptions');
 
-        $baseUrl = $this->getBaseUrl($services);
+        $baseUrl = $this->getBaseUrl($container);
 
         $hybridAuth = new Hybrid_Auth(
             array(
@@ -51,7 +51,7 @@ class HybridAuthFactory implements FactoryInterface
                         ),
                         'scope' => '',
                         'wrapper' => array(
-                            'class' => 'Hybrid_Providers_BitBucket',
+                            'class' => 'Hybridauth\Provider\BitBucket',
                             'path' => realpath(__DIR__ . '/../HybridAuth/Provider/BitBucket.php'),
                         ),
                     ),
@@ -80,7 +80,7 @@ class HybridAuthFactory implements FactoryInterface
                         ),
                         'scope' => $options->getGithubScope(),
                         'wrapper' => array(
-                            'class' => 'Hybrid_Providers_GitHub',
+                            'class' => 'Hybridauth\Provider\GitHub',
                             'path' => realpath(__DIR__ . '/../HybridAuth/Provider/GitHub.php'),
                         ),
                     ),
@@ -121,53 +121,8 @@ class HybridAuthFactory implements FactoryInterface
                             'secret' => $options->getTumblrConsumerSecret(),
                         ),
                         'wrapper' => array(
-                            'class' => 'Hybrid_Providers_Tumblr',
+                            'class' => 'Hybridauth\Provider\Tumblr',
                             'path' => realpath(__DIR__ . '/../HybridAuth/Provider/Tumblr.php'),
-                        ),
-                    ),
-                    'Mailru' => array(
-                        'enabled' => $options->getMailruEnabled(),
-                        'keys' => array(
-                            'id' => $options->getMailruClientId(),
-                            'secret' => $options->getMailruSecret(),
-                        ),
-                        'wrapper' => array(
-                            'class' => 'Hybrid_Providers_Mailru',
-                            'path' => realpath(__DIR__ . '/../HybridAuth/Provider/Mailru.php'),
-                        ),
-                    ),
-                    'Odnoklassniki' => array(
-                        'enabled' => $options->getOdnoklassnikiEnabled(),
-                        'keys' => array(
-                            'id' => $options->getOdnoklassnikiAppId(),
-                            'key' => $options->getOdnoklassnikiKey(),
-                            'secret' => $options->getOdnoklassnikiSecret(),
-                        ),
-                        'wrapper' => array(
-                            'class' => 'Hybrid_Providers_Odnoklassniki',
-                            'path' => realpath(__DIR__ . '/../HybridAuth/Provider/Odnoklassniki.php'),
-                        ),
-                    ),
-                    'Vkontakte' => array(
-                        'enabled' => $options->getVkontakteEnabled(),
-                        'keys' => array(
-                            'id' => $options->getVkontakteAppId(),
-                            'secret' => $options->getVkontakteSecret(),
-                        ),
-                        'wrapper' => array(
-                            'class' => 'Hybrid_Providers_Vkontakte',
-                            'path' => realpath(__DIR__ . '/../HybridAuth/Provider/Vkontakte.php'),
-                        ),
-                    ),
-                    'Yandex' => array(
-                        'enabled' => $options->getYandexEnabled(),
-                        'keys' => array(
-                            'id' => $options->getYandexAppId(),
-                            'secret' => $options->getYandexSecret(),
-                        ),
-                        'wrapper' => array(
-                            'class' => 'Hybrid_Providers_Yandex',
-                            'path' => realpath(__DIR__ . '/../HybridAuth/Provider/Yandex.php'),
                         ),
                     ),
                     'Instagram' => array(
@@ -177,7 +132,7 @@ class HybridAuthFactory implements FactoryInterface
                             'secret' => $options->getInstagramClientSecret(),
                         ),
                         'wrapper' => array(
-                            'class' => 'Hybrid_Providers_Instagram',
+                            'class' => 'Hybridauth\Provider\Instagram',
                             'path' => realpath(__DIR__ . '/../HybridAuth/Provider/Instagram.php'),
                         ),
                     ),
@@ -188,7 +143,7 @@ class HybridAuthFactory implements FactoryInterface
         return $hybridAuth;
     }
 
-    public function getBaseUrl(ServiceLocatorInterface $services)
+    public function getBaseUrl(ContainerInterface $services)
     {
         $router = $services->get('Router');
         if (!$router instanceof TreeRouteStack) {

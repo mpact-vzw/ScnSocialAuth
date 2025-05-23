@@ -7,7 +7,7 @@
 namespace ScnSocialAuthTest\Controller;
 
 use ScnSocialAuth\Controller\UserController;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use ScnSocialAuth\Options\ModuleOptions;
 use Laminas\Mvc\Controller\PluginManager;
 use Laminas\Mvc\MvcEvent;

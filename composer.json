@@ -1,6 +1,6 @@
 {
-    "name": "socalnick/scn-social-auth",
-    "description": "Uses the HybridAuth PHP library to Enable authentication via Google, Facebook, Twitter, Yahoo!, etc for the LmcUser ZF2 module.",
+    "name": "mpact-vzw/scn-social-auth",
+    "description": "Port to Laminas. Uses the HybridAuth PHP library to Enable authentication via Google, Facebook, Twitter, Yahoo!, etc for the LmcUser Laminas module.",
     "type": "library",
     "license": "BSD-3-Clause",
     "keywords": [
@@ -13,6 +13,10 @@
             "name": "Nicholas Calugar",
             "email": "njcalugar@gmail.com",
             "homepage": "http://socalnick.github.com/"
+        },
+        {
+            "name": "Bart lateur",
+            "email": "bart.lateur@moact.be"
         }
     ],
     "require": {

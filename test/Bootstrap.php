@@ -23,17 +23,12 @@ class Bootstrap
             $loader = include $vendorPath . '/autoload.php';
         }
 
-        $zf2Path = getenv('ZF2_PATH') ?: (defined('ZF2_PATH') ? ZF2_PATH : (is_dir($vendorPath . '/zendframework') ? $vendorPath . '/zendframework' : false));
-
-        if (!$zf2Path) {
-            throw new RuntimeException('Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.');
-        }
-
         if (!isset($loader)) {
             throw new RuntimeException('Unable to run tests without composer autoloader');
         }
 
-        $loader->add('Zend', $zf2Path . '/Zend');
+        # ???
+        # $loader->add('Laminas', 'vendor/Laminas');
     }
 
     protected static function findParentPath($path)

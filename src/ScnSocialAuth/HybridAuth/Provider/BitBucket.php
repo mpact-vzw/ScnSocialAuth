@@ -8,7 +8,9 @@
 
 namespace ScnSocialAuth\HybridAuth\Provider;
 
+use Hybridauth\Provider;
+
 /**
  * This is simply to trigger autoloading as a hack for poor design in HybridAuth.
  */
-class BitBucket extends \Hybrid_Providers_BitBucket {}
+class BitBucket extends Provider\BitBucket {}
