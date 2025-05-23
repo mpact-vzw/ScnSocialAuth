@@ -10,6 +10,7 @@ namespace ScnSocialAuth\Service;
 
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * @category   ScnSocialAuth

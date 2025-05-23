@@ -13,6 +13,7 @@ use Laminas\Router\Http\TreeRouteStack;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * @category   ScnSocialAuth

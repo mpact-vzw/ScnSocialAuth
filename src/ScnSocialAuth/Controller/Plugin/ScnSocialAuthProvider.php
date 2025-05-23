@@ -8,17 +8,17 @@ use Laminas\ServiceManager\ServiceLocatorAwareInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use LmcUser\Entity\UserInterface;
 
-class ScnSocialAuthProvider extends AbstractPlugin implements ServiceLocatorAwareInterface
+class ScnSocialAuthProvider extends AbstractPlugin
 {
-    /**
-     * @var ServiceLocator
-     */
-    protected $serviceLocator;
 
     /**
      * @var UserProviderInterface
      */
     protected $mapper;
+
+    function __construct(UserProviderInterface $mapper) {
+        $this->mapper = $mapper;
+    }
 
     /**
      * Returns a UserProviderInterface for $user and $provider
@@ -42,49 +42,13 @@ class ScnSocialAuthProvider extends AbstractPlugin implements ServiceLocatorAwar
     }
 
     /**
-     * set mapper
-     *
-     * @param  UserProviderInterface $mapper
-     * @return HybridAuth
-     */
-    public function setMapper(UserProviderInterface $mapper)
-    {
-        $this->mapper = $mapper;
-
-        return $this;
-    }
-
-    /**
      * get mapper
      *
      * @return UserProviderInterface
      */
     public function getMapper()
     {
-        if (!$this->mapper instanceof UserProviderInterface) {
-            $this->setMapper($this->getServiceLocator()->get('ScnSocialAuth-UserProviderMapper'));
-        }
-
         return $this->mapper;
     }
 
-    /**
-     * Retrieve service manager instance
-     *
-     * @return ServiceLocator
-     */
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator->getServiceLocator();
-    }
-
-    /**
-     * Set service locator
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->serviceLocator = $serviceLocator;
-    }
 }

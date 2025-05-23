@@ -9,21 +9,25 @@
 namespace ScnSocialAuth\Service;
 
 use ScnSocialAuth\Controller\Plugin\ScnSocialAuthProvider;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * @category   ScnSocialAuth
  * @package    ScnSocialAuth_Service
  */
 class ProviderControllerPluginFactory implements FactoryInterface
-{
+{  
     public function createService(ServiceLocatorInterface $serviceManager)
     {
-        $mapper = $serviceManager->getServiceLocator()->get('ScnSocialAuth-UserProviderMapper');
+        $this($serviceManager, null);
+    }
 
-        $controllerPlugin = new ScnSocialAuthProvider();
-        $controllerPlugin->setMapper($mapper);
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
+    {
+        $mapper = $container->get('ScnSocialAuth-UserProviderMapper');
+        $controllerPlugin = new ScnSocialAuthProvider($mapper);
 
         return $controllerPlugin;
     }
