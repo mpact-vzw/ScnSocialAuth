@@ -1,7 +1,7 @@
 <?php
 namespace ScnSocialAuth\Controller;
 
-use Hybrid_Auth;
+use Hybridauth\Hybridauth as Hybrid_Auth;
 use ScnSocialAuth\Mapper\Exception as MapperException;
 use ScnSocialAuth\Mapper\UserProviderInterface;
 use ScnSocialAuth\Options\ModuleOptions;

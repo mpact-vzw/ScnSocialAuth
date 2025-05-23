@@ -8,7 +8,7 @@
 
 namespace ScnSocialAuth\Service;
 
-use Hybrid_Auth;
+use Hybridauth\Hybridauth as Hybrid_Auth;
 use Laminas\Router\Http\TreeRouteStack;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Factory\FactoryInterface;

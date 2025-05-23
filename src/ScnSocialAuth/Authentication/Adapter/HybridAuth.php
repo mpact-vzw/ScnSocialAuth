@@ -2,7 +2,7 @@
 
 namespace ScnSocialAuth\Authentication\Adapter;
 
-use Hybrid_Auth;
+use Hybridauth\Hybridauth as Hybrid_Auth;
 use ScnSocialAuth\Mapper\UserProviderInterface;
 use ScnSocialAuth\Options\ModuleOptions;
 use Laminas\Authentication\Result;
