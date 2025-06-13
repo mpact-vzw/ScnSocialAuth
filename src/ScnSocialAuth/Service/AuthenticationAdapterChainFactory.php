@@ -33,7 +33,7 @@ class AuthenticationAdapterChainFactory implements FactoryInterface
 
         // Create a new adapter chain with HybridAuth adapter
         $factory = new AdapterChainServiceFactory();
-        $chain = $factory->createService($container);
+        $chain = $factory($container, null);
 
         // Reset the adapters in the module options
         $lmcUserModuleOptions->setAuthAdapters($currentAuthAdapters);
