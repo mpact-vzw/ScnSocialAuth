@@ -31,6 +31,11 @@ class ModuleOptions extends AbstractOptions
     /**
      * @var string
      */
+    protected $callback;
+
+    /**
+     * @var string
+     */
     protected $userProviderEntityClass = 'ScnSocialAuth\Entity\UserProvider';
 
     /**
@@ -1404,5 +1409,20 @@ class ModuleOptions extends AbstractOptions
     public function setBitbucketSecret($bitbucketSecret)
     {
         $this->bitbucketSecret = $bitbucketSecret;
+    }
+    /**
+     * @return mixed
+     */
+    public function getCallback()
+    {
+        return $this->callback;
+    }
+
+    /**
+     * @param mixed $callback
+     */
+    public function setCallback($callback): void
+    {
+        $this->callback = $callback;
     }
 }

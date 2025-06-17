@@ -42,6 +42,7 @@ class HybridAuthFactory implements FactoryInterface
                 'base_url' => $baseUrl,
                 "debug_mode" => $options->getDebugMode(),
                 "debug_file" => $options->getDebugFile(),
+                'callback' => $options->getCallback(),
                 'providers' => array(
                     'BitBucket' => array(
                         'enabled' => $options->getBitbucketEnabled(),
