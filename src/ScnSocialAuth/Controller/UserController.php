@@ -148,7 +148,7 @@ class UserController extends AbstractActionController
 
     public function logoutAction()
     {
-        Hybrid_Auth::logoutAllProviders();
+        $this->hybridAuth->disconnectAllAdapters();
 
         return $this->forward()->dispatch('lmcuser', array('action' => 'logout'));
     }
